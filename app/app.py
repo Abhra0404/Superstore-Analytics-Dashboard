@@ -19,7 +19,7 @@ def draw_vertical_divider(height=430, color="#808080"):
 
 # ---------------- CONFIG ----------------
 st.set_page_config(
-    page_title="E-Commerce Analytics",
+    page_title="Superstore Analytics",
     page_icon="📊",
     layout="wide"
 )
@@ -55,7 +55,7 @@ df = df[(df['Region'].isin(region)) & (df['Category'].isin(category))]
 
 # ---------------- HEADER ----------------
 st.markdown("""
-# 📊 E-Commerce Analytics Dashboard  
+# 📊 Superstore Analytics Dashboard  
 ### Turning Data into Business Decisions 💼
 """)
 
