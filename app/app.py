@@ -113,6 +113,8 @@ st.markdown("---")
 st.subheader("📈 Sales Trend Over Time")
 
 sales_trend = df.groupby('Year')['Sales'].sum().reset_index()
+sales_trend['Year'] = sales_trend['Year'].astype('int64').astype(str)
+sales_trend['Sales'] = sales_trend['Sales'].astype('float64')
 
 sales_trend_chart = (
     alt.Chart(sales_trend)
@@ -135,6 +137,8 @@ with col1:
     st.subheader("🛒 Category Performance")
 
     category_sales = df.groupby('Category')['Sales'].sum().reset_index()
+    category_sales['Category'] = category_sales['Category'].astype(str)
+    category_sales['Sales'] = category_sales['Sales'].astype('float64')
 
     category_chart = (
         alt.Chart(category_sales)
@@ -153,6 +157,8 @@ with col2:
     st.subheader("🌍 Regional Performance")
 
     region_sales = df.groupby('Region')['Sales'].sum().reset_index()
+    region_sales['Region'] = region_sales['Region'].astype(str)
+    region_sales['Sales'] = region_sales['Sales'].astype('float64')
 
     region_chart = (
         alt.Chart(region_sales)
@@ -223,6 +229,8 @@ with col2:
     merged = merged.dropna(subset=['Segment'])
 
     segment_revenue = merged.groupby('Segment', as_index=False)['Sales'].sum()
+    segment_revenue['Segment'] = segment_revenue['Segment'].astype(str)
+    segment_revenue['Sales'] = segment_revenue['Sales'].astype('float64')
 
     segment_revenue_chart = (
         alt.Chart(segment_revenue)
