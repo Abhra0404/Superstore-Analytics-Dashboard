@@ -62,6 +62,10 @@ category = st.sidebar.multiselect(
 
 df = df[(df['Region'].isin(region)) & (df['Category'].isin(category))]
 
+if df.empty:
+    st.warning("No data available for the selected filters. Please choose at least one region and category.")
+    st.stop()
+
 # ---------------- HEADER ----------------
 st.markdown("""
 # 📊 Superstore Analytics Dashboard  
@@ -89,7 +93,7 @@ sales_trend = df.groupby('Year')['Sales'].sum().reset_index()
 fig = px.line(sales_trend, x='Year', y='Sales', markers=True)
 fig.update_layout(template="plotly_white")
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 st.markdown("---")
 
@@ -104,7 +108,7 @@ with col1:
     fig = px.bar(category_sales, x='Category', y='Sales', color='Category')
     fig.update_layout(template="plotly_white")
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 with col2:
     st.subheader("🌍 Regional Performance")
@@ -114,7 +118,7 @@ with col2:
     fig = px.bar(region_sales, x='Region', y='Sales', color='Region')
     fig.update_layout(template="plotly_white")
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 with divider_col:
     st.write("")
@@ -161,7 +165,7 @@ with col1:
     )
 
     fig.update_layout(template="plotly_white")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ---------------- REVENUE BY SEGMENT ----------------
 with col2:
@@ -181,7 +185,7 @@ with col2:
     )
 
     fig.update_layout(template="plotly_white")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 with divider_col:
     st.write("")
@@ -194,7 +198,7 @@ st.markdown("### 🏆 Top High-Value Customers")
 
 top_customers = rfm.sort_values(by='Monetary', ascending=False).head(10)
 st.markdown(top_customers[['Recency', 'Frequency', 'Monetary']].to_html(classes='dataframe', border=0), unsafe_allow_html=True)
-
+st.markdown("---")
 # ---------------- INSIGHTS TABLE ----------------
 st.subheader("🧠 Key Business Insights")
 
