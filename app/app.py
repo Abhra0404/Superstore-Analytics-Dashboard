@@ -9,6 +9,7 @@ import pandas as pd
 import plotly.express as px
 from src.analysis import calculate_kpis
 from src.advanced import rfm_analysis
+from src.preprocess import clean_data
 
 
 def draw_vertical_divider(height=430, color="#808080"):
@@ -36,7 +37,29 @@ def load_data():
     data = pd.read_csv("data/cleaned/cleaned_data.csv")
     data['Order Date'] = pd.to_datetime(data['Order Date'], errors='coerce')
     data['Ship Date'] = pd.to_datetime(data['Ship Date'], errors='coerce')
-    data = data.dropna(subset=['Order Date'])
+
+    # Normalize numeric columns to avoid string/locale issues in deployed CSV parsing.
+    if 'Sales' in data.columns:
+        data['Sales'] = pd.to_numeric(
+            data['Sales']
+            .astype(str)
+            .str.replace('$', '', regex=False)
+            .str.replace(',', '', regex=False)
+            .str.strip(),
+            errors='coerce'
+        )
+
+    if 'Year' in data.columns:
+        data['Year'] = pd.to_numeric(data['Year'], errors='coerce')
+    data['Year'] = data['Order Date'].dt.year
+
+    data = data.dropna(subset=['Order Date', 'Sales'])
+
+    # Fallback for cloud runs if cleaned file is stale or malformed.
+    if data.empty or data['Sales'].sum() <= 0:
+        raw_data = pd.read_csv("data/raw/superstore.csv")
+        data = clean_data(raw_data)
+
     return data
 
 df = load_data()
