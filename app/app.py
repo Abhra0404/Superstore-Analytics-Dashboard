@@ -269,3 +269,8 @@ st.download_button(
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.markdown("### 👾 Built by Abhra | Data Analytics Project")
+
+st.write("DEBUG DATA:")
+st.write(df.head())
+st.write(df.columns)
+st.write(df.shape)
