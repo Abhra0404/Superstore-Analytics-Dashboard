@@ -128,7 +128,7 @@ with col1:
     category_sales = df.groupby('Category')['Sales'].sum().reset_index()
 
     fig = px.bar(category_sales, x='Category', y='Sales', color='Category')
-    fig.update_layout(template="plotly_white", bargap=0.1)
+    fig.update_layout(template="plotly_white")
 
     st.plotly_chart(fig, use_container_width=True)
 
@@ -138,7 +138,7 @@ with col2:
     region_sales = df.groupby('Region')['Sales'].sum().reset_index()
 
     fig = px.bar(region_sales, x='Region', y='Sales', color='Region')
-    fig.update_layout(template="plotly_white", bargap=0.1)
+    fig.update_layout(template="plotly_white")
 
     st.plotly_chart(fig, use_container_width=True)
 
@@ -206,7 +206,7 @@ with col2:
         color='Segment'
     )
 
-    fig.update_layout(template="plotly_white", bargap=0.1)
+    fig.update_layout(template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
 
 with divider_col:
