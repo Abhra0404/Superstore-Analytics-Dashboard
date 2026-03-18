@@ -24,6 +24,12 @@ st.set_page_config(
     layout="wide"
 )
 
+# Streamlit Cloud compatibility: avoid Arrow LargeUtf8 dataframe serialization issues.
+try:
+    st.set_option("global.dataFrameSerialization", "legacy")
+except Exception:
+    pass
+
 # ---------------- LOAD DATA ----------------
 @st.cache_data
 def load_data():
