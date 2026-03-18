@@ -39,16 +39,19 @@ df = load_data()
 st.sidebar.markdown("## 🎛 Dashboard Controls")
 st.sidebar.markdown("Filter data to explore insights")
 
+region_options = sorted(df['Region'].dropna().unique().tolist())
+category_options = sorted(df['Category'].dropna().unique().tolist())
+
 region = st.sidebar.multiselect(
     "🌍 Region",
-    options=df['Region'].unique(),
-    default=df['Region'].unique()
+    options=region_options,
+    default=region_options
 )
 
 category = st.sidebar.multiselect(
     "🛒 Category",
-    options=df['Category'].unique(),
-    default=df['Category'].unique()
+    options=category_options,
+    default=category_options
 )
 
 df = df[(df['Region'].isin(region)) & (df['Category'].isin(category))]
