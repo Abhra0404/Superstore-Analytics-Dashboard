@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import altair as alt
 from src.analysis import calculate_kpis
 from src.advanced import rfm_analysis
 from src.preprocess import clean_data
@@ -113,10 +114,17 @@ st.subheader("📈 Sales Trend Over Time")
 
 sales_trend = df.groupby('Year')['Sales'].sum().reset_index()
 
-fig = px.line(sales_trend, x='Year', y='Sales', markers=True)
-fig.update_layout(template="plotly_white")
+sales_trend_chart = (
+    alt.Chart(sales_trend)
+    .mark_line(point=True)
+    .encode(
+        x=alt.X('Year:O', title='Year'),
+        y=alt.Y('Sales:Q', title='Sales')
+    )
+    .properties(height=360)
+)
 
-st.plotly_chart(fig, width="stretch")
+st.altair_chart(sales_trend_chart, width="stretch")
 
 st.markdown("---")
 
@@ -128,20 +136,36 @@ with col1:
 
     category_sales = df.groupby('Category')['Sales'].sum().reset_index()
 
-    fig = px.bar(category_sales, x='Category', y='Sales', color='Category')
-    fig.update_layout(template="plotly_white")
+    category_chart = (
+        alt.Chart(category_sales)
+        .mark_bar()
+        .encode(
+            x=alt.X('Category:N', title='Category', sort='-y'),
+            y=alt.Y('Sales:Q', title='Sales'),
+            color=alt.Color('Category:N', legend=None)
+        )
+        .properties(height=360)
+    )
 
-    st.plotly_chart(fig, width="stretch")
+    st.altair_chart(category_chart, width="stretch")
 
 with col2:
     st.subheader("🌍 Regional Performance")
 
     region_sales = df.groupby('Region')['Sales'].sum().reset_index()
 
-    fig = px.bar(region_sales, x='Region', y='Sales', color='Region')
-    fig.update_layout(template="plotly_white")
+    region_chart = (
+        alt.Chart(region_sales)
+        .mark_bar()
+        .encode(
+            x=alt.X('Region:N', title='Region', sort='-y'),
+            y=alt.Y('Sales:Q', title='Sales'),
+            color=alt.Color('Region:N', legend=None)
+        )
+        .properties(height=360)
+    )
 
-    st.plotly_chart(fig, width="stretch")
+    st.altair_chart(region_chart, width="stretch")
 
 with divider_col:
     st.write("")
@@ -200,15 +224,18 @@ with col2:
 
     segment_revenue = merged.groupby('Segment', as_index=False)['Sales'].sum()
 
-    fig = px.bar(
-        segment_revenue,
-        x='Segment',
-        y='Sales',
-        color='Segment'
+    segment_revenue_chart = (
+        alt.Chart(segment_revenue)
+        .mark_bar()
+        .encode(
+            x=alt.X('Segment:N', title='Segment', sort='-y'),
+            y=alt.Y('Sales:Q', title='Sales'),
+            color=alt.Color('Segment:N', legend=None)
+        )
+        .properties(height=360)
     )
 
-    fig.update_layout(template="plotly_white")
-    st.plotly_chart(fig, width="stretch")
+    st.altair_chart(segment_revenue_chart, width="stretch")
 
 with divider_col:
     st.write("")
