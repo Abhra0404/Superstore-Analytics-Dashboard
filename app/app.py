@@ -124,7 +124,7 @@ sales_trend_chart = (
     .properties(height=360)
 )
 
-st.altair_chart(sales_trend_chart, width="stretch")
+st.altair_chart(sales_trend_chart, use_container_width=True)
 
 st.markdown("---")
 
@@ -147,7 +147,7 @@ with col1:
         .properties(height=360)
     )
 
-    st.altair_chart(category_chart, width="stretch")
+    st.altair_chart(category_chart, use_container_width=True)
 
 with col2:
     st.subheader("🌍 Regional Performance")
@@ -165,7 +165,7 @@ with col2:
         .properties(height=360)
     )
 
-    st.altair_chart(region_chart, width="stretch")
+    st.altair_chart(region_chart, use_container_width=True)
 
 with divider_col:
     st.write("")
@@ -235,7 +235,7 @@ with col2:
         .properties(height=360)
     )
 
-    st.altair_chart(segment_revenue_chart, width="stretch")
+    st.altair_chart(segment_revenue_chart, use_container_width=True)
 
 with divider_col:
     st.write("")
