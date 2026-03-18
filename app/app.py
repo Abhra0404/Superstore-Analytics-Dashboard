@@ -126,7 +126,7 @@ st.markdown("---")
 st.subheader("🏆 Top Performing Products")
 
 top_products = df.groupby('Product Name')['Sales'].sum().sort_values(ascending=False).head(10)
-st.dataframe(top_products, use_container_width=True)
+st.markdown(top_products.to_frame(name='Sales').to_html(classes='dataframe', border=0), unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -193,7 +193,7 @@ st.markdown("---")
 st.markdown("### 🏆 Top High-Value Customers")
 
 top_customers = rfm.sort_values(by='Monetary', ascending=False).head(10)
-st.dataframe(top_customers[['Recency', 'Frequency', 'Monetary']], use_container_width=True)
+st.markdown(top_customers[['Recency', 'Frequency', 'Monetary']].to_html(classes='dataframe', border=0), unsafe_allow_html=True)
 
 # ---------------- INSIGHTS TABLE ----------------
 st.subheader("🧠 Key Business Insights")
